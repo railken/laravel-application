@@ -34,15 +34,15 @@ class Package{
      */
     public function __construct($service_provider, $base_path, $name)
     {
-        $this -> service_provider = $service_provider;
-        $this -> base_path = $base_path;
-        $this -> name = $name;
+        $this->service_provider = $service_provider;
+        $this->base_path = $base_path;
+        $this->name = $name;
     }
     
 
     public function getServiceProvider()
     {
-        return $this -> service_provider;
+        return $this->service_provider;
     }
 
     /**
@@ -53,7 +53,7 @@ class Package{
     public function boot()
     {
 
-        $this -> load();
+        $this->load();
     }
 
     /**
@@ -72,8 +72,8 @@ class Package{
      * @return void
      */
     public function load(){
-        $this -> loadServices();
-        $this -> loadResources();
+        $this->loadServices();
+        $this->loadResources();
     }
     
     /**
@@ -84,17 +84,17 @@ class Package{
     public function loadServices()
     {
 
-        $this -> loadFile('Providers/*','Providers\\',function($file,$class){
-            $this -> getServiceProvider() -> app -> register($class);
+        $this->loadFile('Providers/*', 'Providers\\', function($file,$class){
+            $this->getServiceProvider()->app->register($class);
         });
 
-        $this -> loadFiles('Console/Commands/*','Console\\Commands\\',function($files,$classes){
-            $this -> getServiceProvider() -> commands($classes);
+        $this->loadFiles('Console/Commands/*', 'Console\\Commands\\', function($files,$classes){
+            $this->getServiceProvider()->commands($classes);
         });
 
 
-        $this -> loadFile('Exceptions/Handler.php','Exceptions\\',function($file,$class){
-            $this -> getServiceProvider() -> addExceptionsHandler($class);
+        $this->loadFile('Exceptions/Handler.php', 'Exceptions\\', function($file,$class){
+            $this->getServiceProvider()->addExceptionsHandler($class);
         });
 
     }
@@ -112,9 +112,9 @@ class Package{
     public function loadFile($directory, $namespace, $closure)
     {
 
-        $files = $this -> getFiles($directory);
-        $files -> map(function($file) use($closure,$namespace){
-            $class = $this -> getClassByBasename(basename($file),$namespace);
+        $files = $this->getFiles($directory);
+        $files->map(function($file) use($closure,$namespace){
+            $class = $this->getClassByBasename(basename($file),$namespace);
             $closure($file,$class);
         });
     }
@@ -134,9 +134,9 @@ class Package{
         $files = [];
         $classes = [];
 
-        $files = $this -> getFiles($directory);
-        $files -> map(function($file) use($closure,$namespace,&$classes,&$files){
-            $class = $this -> getClassByBasename(basename($file),$namespace);
+        $files = $this->getFiles($directory);
+        $files->map(function($file) use($closure,$namespace,&$classes,&$files){
+            $class = $this->getClassByBasename(basename($file),$namespace);
             $classes[] = $class;
             $files[] = $file;
         });
@@ -151,8 +151,8 @@ class Package{
      */
     public function loadResources()
     {
-        $this -> loadViews();
-        $this -> loadPublic();
+        $this->loadViews();
+        $this->loadPublic();
     }
 
     /**
@@ -163,9 +163,9 @@ class Package{
     public function loadViews()
     {
 
-        $package = $this -> base_path."/Resources/views";
+        $package = $this->base_path."/Resources/views";
 
-        $this -> getServiceProvider() -> loadViewsFrom($package, $this -> name);
+        $this->getServiceProvider()->loadViewsFrom($package, $this->name);
 
     }
 
@@ -182,11 +182,11 @@ class Package{
         if(!File::exists($directory))
             File::makeDirectory($directory, 0775, true);
 
-        $basic = $directory."/".$this -> name;
+        $basic = $directory."/".$this->name;
 
-        $package = $this -> base_path."/Resources/public";
+        $package = $this->base_path."/Resources/public";
 
-        $this -> createLink($package,$basic);
+        $this->createLink($package,$basic);
     }
 
     /** 
@@ -221,7 +221,7 @@ class Package{
     public function getClassByBasename($basename,$namespace = '')
     {
         $file = basename($basename,".php");
-        $class = "\\".$this -> name."\\".$namespace.$file;
+        $class = "\\".$this->name."\\".$namespace.$file;
         return $class;
     }
 
@@ -232,7 +232,7 @@ class Package{
      */
     public function getFiles($directory)
     {
-        return collect(File::glob($this -> base_path."/{$directory}"));
+        return collect(File::glob($this->base_path."/{$directory}"));
     }
 
 }
