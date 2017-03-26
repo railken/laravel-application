@@ -1,10 +1,10 @@
 <?php
 
-namespace EchoWine\Laravel\App\Commands;
+namespace Railken\Laravel\App\Commands;
 
 use Illuminate\Console\Command;
 
-use EchoWine\Laravel\App\Generator;
+use Railken\Laravel\App\Generator;
 
 class Generate extends Command{
 

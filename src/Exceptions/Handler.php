@@ -1,6 +1,6 @@
 <?php
 
-namespace EchoWine\Laravel\App\Exceptions;
+namespace Railken\Laravel\App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as BaseHandler;

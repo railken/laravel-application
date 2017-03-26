@@ -1,9 +1,9 @@
 <?php 
 
-namespace EchoWine\Laravel\App;
+namespace Railken\Laravel\App;
 
 use Illuminate\Support\ServiceProvider;
-use EchoWine\Laravel\App\Commands as Commands;
+use Railken\Laravel\App\Commands as Commands;
 use File;
 
 class AppServiceProvider extends ServiceProvider
@@ -157,6 +157,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @param  string  $path
      * @param  string  $key
+     *
      * @return void
      */
     public function mergeConfigFrom($path, $key)
@@ -169,6 +170,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @param  string  $path
      * @param  string  $namespace
+     *
      * @return void
      */
     public function loadViewsFrom($path, $namespace)
@@ -181,6 +183,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @param  string  $path
      * @param  string  $namespace
+     *
      * @return void
      */
     public function loadTranslationsFrom($path, $namespace)
@@ -192,6 +195,7 @@ class AppServiceProvider extends ServiceProvider
      * Register a database migration path.
      *
      * @param  array|string  $paths
+     *
      * @return void
      */
     public function loadMigrationsFrom($paths)
@@ -204,6 +208,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @param  array  $paths
      * @param  string  $group
+     *
      * @return void
      */
     public function publishes(array $paths, $group = null)

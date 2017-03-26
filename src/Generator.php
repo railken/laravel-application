@@ -1,6 +1,6 @@
 <?php
 
-namespace EchoWine\Laravel\App;
+namespace Railken\Laravel\App;
 
 use File;
 
