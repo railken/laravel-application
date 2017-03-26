@@ -13,7 +13,7 @@ class Generate extends Command{
      *
      * @var string
      */
-    protected $signature = 'src:generate {name}';
+    protected $signature = 'railken:make:src {name}';
 
     /**
      * The console command description.

@@ -31,7 +31,7 @@ use Railken\Laravel\App\Exceptions\Handler as ExceptionHandler;
 
 ## Usage
 
-- Create a new src package folder with `php artisan src:generate Example` at the root of your project.
+- Create a new src package folder with `php artisan railken:make:src Example` at the root of your project.
 
 ### Return view
 
