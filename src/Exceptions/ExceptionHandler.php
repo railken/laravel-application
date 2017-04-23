@@ -4,8 +4,8 @@ namespace Railken\Laravel\App\Exceptions;
 
 use Exception;
 
-class ExceptionHandler{
-
+class ExceptionHandler
+{
     public $app;
 
     public function __construct($app)
@@ -23,7 +23,6 @@ class ExceptionHandler{
      */
     public function report(Exception $exception)
     {
-    	
     }
 
     /**
@@ -35,6 +34,5 @@ class ExceptionHandler{
      */
     public function render($request, Exception $exception)
     {
-
     }
 }
