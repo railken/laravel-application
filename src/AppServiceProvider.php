@@ -44,29 +44,28 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->makePath();
 
         $this->commands([Commands\Generate::class]);
 
         $this->loadPackages();
 
-        $v = explode(".",$this->app->version());
+        $v = explode(".", $this->app->version());
         $v = $v[0].".".$v[1];
 
-        if(!in_array($v,$this->versions))
+        if (!in_array($v, $this->versions)) {
             throw new \Exception("Version {$this->app->version()} not supported");
+        }
 
         $this->version = $v;
 
-        $this->app->bind('src.version',function() {
+        $this->app->bind('src.version', function () {
             return $this->version;
         });
 
-        $this->app->bind('exceptions_handlers',function() {
+        $this->app->bind('exceptions_handlers', function () {
             return $this->exceptions_handlers;
         });
-
     }
     
     /**
@@ -78,7 +77,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function addExceptionsHandler($class)
     {
-
         $this->exceptions_handlers[] = new $class($this->app);
     }
 
@@ -89,8 +87,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
     }
 
     /**
@@ -112,8 +108,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $path = base_path('src');
 
-        if(!File::exists($path))
+        if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
+        }
     }
 
     /**
@@ -127,16 +124,15 @@ class AppServiceProvider extends ServiceProvider
         
         $packages = collect();
 
-        foreach(glob($path."/*") as $directory){
-        
+        foreach (glob($path."/*") as $directory) {
             $name = basename($directory);
 
             $file = $directory."/Package.php";
             $class = "{$name}\Package";
 
-            if(File::exists($file)){
+            if (File::exists($file)) {
                 require $file;
-                $class = new $class($this,$directory,$name);
+                $class = new $class($this, $directory, $name);
                 $class->boot();
 
                 $packages[] = $class;
@@ -144,11 +140,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-        $packages->map(function($package){
+        $packages->map(function ($package) {
             $package->register();
         });
-
-
     }
 
 

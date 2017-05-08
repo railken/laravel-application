@@ -5,9 +5,9 @@ namespace Railken\Laravel\App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as BaseHandler;
 
-class Handler extends BaseHandler{
-
-	public static $handlers = [];
+class Handler extends BaseHandler
+{
+    public static $handlers = [];
 
     /**
      * Report or log an exception.
@@ -19,12 +19,12 @@ class Handler extends BaseHandler{
      */
     public function report(Exception $exception)
     {
-    	# Search throught all Handler defined in Package
+        # Search throught all Handler defined in Package
 
 
-    	foreach($this -> getHandlers() as $handler){
-    		$handler -> report($exception);
-    	}
+        foreach ($this -> getHandlers() as $handler) {
+            $handler -> report($exception);
+        }
 
         parent::report($exception);
     }
@@ -38,15 +38,13 @@ class Handler extends BaseHandler{
      */
     public function render($request, Exception $exception)
     {
+        foreach ($this -> getHandlers() as $handler) {
+            if ($return = $handler -> render($request, $exception)) {
+                return $return;
+            }
+        }
 
-
-    	foreach($this -> getHandlers() as $handler) {
-
-    		if($return = $handler -> render($request,$exception))
-    			return $return;
-    	}
-
-    	# Search throught all Handler defined in Package
+        # Search throught all Handler defined in Package
         return parent::render($request, $exception);
     }
 
@@ -59,7 +57,7 @@ class Handler extends BaseHandler{
     {
         try {
             return $this -> container -> make('exceptions_handlers');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
     }

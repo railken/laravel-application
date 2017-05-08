@@ -4,7 +4,8 @@ namespace Railken\Laravel\App;
 
 use File;
 
-class Package{
+class Package
+{
 
     /**
      * app
@@ -52,7 +53,6 @@ class Package{
      */
     public function boot()
     {
-
         $this->load();
     }
 
@@ -63,7 +63,6 @@ class Package{
      */
     public function register()
     {
-
     }
     
     /**
@@ -71,7 +70,8 @@ class Package{
      *
      * @return void
      */
-    public function load(){
+    public function load()
+    {
         $this->loadServices();
         $this->loadResources();
     }
@@ -95,7 +95,6 @@ class Package{
         $this->loadFile('Exceptions/Handler.php', 'Exceptions\\', function($file,$class){
             $this->getServiceProvider()->addExceptionsHandler($class);
         });
-
     }
 
 
@@ -110,7 +109,6 @@ class Package{
      */
     public function loadFile($directory, $namespace, $closure)
     {
-
         $files = $this->getFiles($directory);
 
         $classes = [];
@@ -147,9 +145,8 @@ class Package{
      *
      * @return void
      */
-    public function loadFiles($directory,$namespace,$closure)
+    public function loadFiles($directory, $namespace, $closure)
     {
-
         $files = [];
         $classes = [];
 
@@ -194,11 +191,9 @@ class Package{
      */
     public function loadViews()
     {
-
         $package = $this->base_path."/Resources/views";
 
         $this->getServiceProvider()->loadViewsFrom($package, $this->name);
-
     }
 
     /**
@@ -208,20 +203,20 @@ class Package{
      */
     public function loadPublic()
     {
-
         $directory = base_path("public/src");
 
-        if(!File::exists($directory))
+        if (!File::exists($directory)) {
             File::makeDirectory($directory, 0775, true);
+        }
 
         $basic = $directory."/".$this->name;
 
         $package = $this->base_path."/Resources/public";
 
-        $this->createLink($package,$basic);
+        $this->createLink($package, $basic);
     }
 
-    /** 
+    /**
      * Create link
      *
      * @param string $form
@@ -229,16 +224,13 @@ class Package{
      *
      * @return void
      */
-    public function createLink($from,$to)
+    public function createLink($from, $to)
     {
-
-        if(File::exists($from)){
-            if(!File::exists($to)){
-                try{
-
-                    symlink($from,$to);
-
-                }catch(\Exception $e){
+        if (File::exists($from)) {
+            if (!File::exists($to)) {
+                try {
+                    symlink($from, $to);
+                } catch (\Exception $e) {
                     throw new \Exception("Cannot create symlink from $from to $to");
                 }
             }
@@ -250,7 +242,7 @@ class Package{
      *
      * @return string
      */
-    public function getClassByBasename($basename,$namespace = '')
+    public function getClassByBasename($basename, $namespace = '')
     {
         $file = basename($basename,".php");
         $class = $namespace.$file;
@@ -272,5 +264,4 @@ class Package{
             return collect();
         }
     }
-
 }
