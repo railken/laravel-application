@@ -84,14 +84,13 @@ class Package{
     public function loadServices()
     {
 
-        $this->loadFile('Providers/*', 'Providers\\', function($file,$class){
+        $this->loadFile('Providers', 'Providers\\', function($class){
             $this->getServiceProvider()->app->register($class);
         });
 
-        $this->loadFiles('Console/Commands/*', 'Console\\Commands\\', function($files,$classes){
+        $this->loadFiles('Console/Commands', 'Console\\Commands\\', function($files,$classes){
             $this->getServiceProvider()->commands($classes);
         });
-
 
         $this->loadFile('Exceptions/Handler.php', 'Exceptions\\', function($file,$class){
             $this->getServiceProvider()->addExceptionsHandler($class);
@@ -113,10 +112,30 @@ class Package{
     {
 
         $files = $this->getFiles($directory);
-        $files->map(function($file) use($closure,$namespace){
-            $class = $this->getClassByBasename(basename($file),$namespace);
-            $closure($file,$class);
+
+        $classes = [];
+
+        $files->map(function($file) use($closure, $namespace, &$classes, &$files){
+
+
+            $namespace = str_replace(base_path()."/src", "", $file);
+            $namespace = dirname($namespace);
+            $namespace = str_replace("/", "\\", $namespace)."\\";
+
+
+            if (!is_dir($file)) {
+
+                $class = $this->getClassByBasename(basename($file), $namespace);
+                $classes[] = $class;
+                $files[] = $file;
+            }
         });
+
+        foreach ($classes as $class) {
+
+            $closure($class);
+        }
+
     }
 
     /**
@@ -135,13 +154,26 @@ class Package{
         $classes = [];
 
         $files = $this->getFiles($directory);
-        $files->map(function($file) use($closure,$namespace,&$classes,&$files){
-            $class = $this->getClassByBasename(basename($file),$namespace);
-            $classes[] = $class;
-            $files[] = $file;
+
+
+        $files->map(function($file) use($closure, $namespace, &$classes, &$files){
+
+
+            $namespace = str_replace(base_path()."/src", "", $file);
+            $namespace = dirname($namespace);
+            $namespace = str_replace("/", "\\", $namespace)."\\";
+
+
+            if (!is_dir($file)) {
+
+                $class = $this->getClassByBasename(basename($file), $namespace);
+                $classes[] = $class;
+                $files[] = $file;
+            }
         });
 
-        $closure($files,$classes);
+        if (!empty($classes))
+            $closure($files, $classes);
     }
 
     /**
@@ -221,7 +253,7 @@ class Package{
     public function getClassByBasename($basename,$namespace = '')
     {
         $file = basename($basename,".php");
-        $class = "\\".$this->name."\\".$namespace.$file;
+        $class = $namespace.$file;
         return $class;
     }
 
@@ -232,7 +264,13 @@ class Package{
      */
     public function getFiles($directory)
     {
-        return collect(File::glob($this->base_path."/{$directory}"));
+        $path = $this->base_path."/{$directory}";
+
+        try { 
+            return collect(File::allFiles($path));
+        } catch (\Exception $e) {
+            return collect();
+        }
     }
 
 }
