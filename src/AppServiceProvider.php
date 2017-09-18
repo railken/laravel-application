@@ -22,20 +22,13 @@ class AppServiceProvider extends ServiceProvider
      * @var Array
      */
     public $exceptions_handlers = [];
-
-    /**
-     * List of all version accepted
-     *
-     * @var Array
-     */
-    public $versions = ['5.1','5.3','5.4'];
-
+    
     /**
      * Current version
      *
-     * @var Array
+     * @var string
      */
-    public $version = ['5.1','5.3','5.4'];
+    public $version;
 
     /**
      * Register the service provider.
@@ -50,14 +43,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadPackages();
 
+
         $v = explode(".", $this->app->version());
-        $v = $v[0].".".$v[1];
-
-        if (!in_array($v, $this->versions)) {
-            throw new \Exception("Version {$this->app->version()} not supported");
-        }
-
-        $this->version = $v;
+        
+        $this->version = $v[0].".".$v[1];
 
         $this->app->bind('src.version', function () {
             return $this->version;
