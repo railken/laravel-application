@@ -2,14 +2,23 @@
 
 A simple loader that permits to split the project in multiple parts or even create multiple application. All the basic functions of laravel will be automatically loaded: Commands, Resources/views, Resources/public, routes, Exceptions/Handler, Providers
 
+## Requirements
+
+PHP 5.6.4 or later.
+
+## Composer
+
+You can install it via [Composer](https://getcomposer.org/) by typing the following command:
+
+```bash
+composer require railken/laravel-manager
+```
+
 ## Installation
 
-- Add the package and the folder psr-4 to your `composer.json` and run `composer update`.
+- Add the folder psr-4 to your `composer.json` and run `composer update`.
 ```json
 {
-    "require": {
-        "railken/laravel-application": "*@dev"
-    },
     "autoload": {
         "psr-4": {
             "": "src/"
