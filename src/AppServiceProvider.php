@@ -120,7 +120,7 @@ class AppServiceProvider extends ServiceProvider
             $class = "{$name}\Package";
 
             if (File::exists($file)) {
-                require $file;
+                require_once $file;
                 $class = new $class($this, $directory, $name);
                 $class->boot();
 
