@@ -22,8 +22,8 @@ class Handler extends BaseHandler
         # Search throught all Handler defined in Package
 
 
-        foreach ($this -> getHandlers() as $handler) {
-            $handler -> report($exception);
+        foreach ($this->getHandlers() as $handler) {
+            $handler->report($exception);
         }
 
         parent::report($exception);
@@ -38,8 +38,8 @@ class Handler extends BaseHandler
      */
     public function render($request, Exception $exception)
     {
-        foreach ($this -> getHandlers() as $handler) {
-            if ($return = $handler -> render($request, $exception)) {
+        foreach ($this->getHandlers() as $handler) {
+            if ($return = $handler->render($request, $exception)) {
                 return $return;
             }
         }
@@ -56,7 +56,7 @@ class Handler extends BaseHandler
     public function getHandlers()
     {
         try {
-            return $this -> container -> make('exceptions_handlers');
+            return $this->container->make('exceptions_handlers');
         } catch (\Exception $e) {
             return [];
         }

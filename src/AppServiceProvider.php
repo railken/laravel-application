@@ -43,15 +43,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadPackages();
 
-
-        $v = explode(".", $this->app->version());
-        
-        $this->version = $v[0].".".$v[1];
-
-        $this->app->bind('src.version', function () {
-            return $this->version;
-        });
-
         $this->app->bind('exceptions_handlers', function () {
             return $this->exceptions_handlers;
         });
@@ -76,6 +67,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        
     }
 
     /**

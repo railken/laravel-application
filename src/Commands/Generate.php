@@ -50,49 +50,40 @@ class Generate extends Command
             $this->error($e->getMessage());
         }
 
-        $v = $this->laravel->make('src.version')."/";
-
-        $gn->put("$v/Http/routes.php", "Http/routes.php", [
+        $gn->put("Http/routes.php", "Http/routes.php", [
             'URL' => strtolower($name)
         ]);
 
-        $gn->put("$v/Package.php", "Package.php", [
+        $gn->put("Package.php", "Package.php", [
             'NAMESPACE' => $name
         ]);
 
-        $gn->put("$v/Resources/views/welcome.blade.php", "Resources/views/welcome.blade.php", [
+        $gn->put("Resources/views/welcome.blade.php", "Resources/views/welcome.blade.php", [
             'NAMESPACE' => $name
         ]);
 
-        $gn->put("$v/Resources/public/assets/welcome/main.css", "Resources/public/assets/welcome/main.css");
+        $gn->put("Resources/public/assets/welcome/main.css", "Resources/public/assets/welcome/main.css");
 
-        $gn->put("$v/Providers/AppServiceProvider.php", "Providers/AppServiceProvider.php", [
+        $gn->put("Providers/AppServiceProvider.php", "Providers/AppServiceProvider.php", [
             'NAMESPACE' => $name
         ]);
 
-        $gn->put("$v/Providers/RouteServiceProvider.php", "Providers/RouteServiceProvider.php", [
+        $gn->put("Providers/RouteServiceProvider.php", "Providers/RouteServiceProvider.php", [
             'NAMESPACE' => $name
         ]);
 
-        $gn->put("$v/Http/Controllers/Controller.php", "Http/Controllers/Controller.php", [
+        $gn->put("Http/Controllers/Controller.php", "Http/Controllers/Controller.php", [
             'NAMESPACE' => $name
         ]);
 
-        $gn->put("$v/Http/Controllers/WelcomeController.php", "Http/Controllers/WelcomeController.php", [
+        $gn->put("Http/Controllers/WelcomeController.php", "Http/Controllers/WelcomeController.php", [
             'NAMESPACE' => $name
         ]);
 
-        $gn->put("$v/Console/Commands/Welcome.php", "Console/Commands/Welcome.php", [
+        $gn->put("Console/Commands/Welcome.php", "Console/Commands/Welcome.php", [
             'NAMESPACE' => $name,
             'NAME' => strtolower($name)
         ]);
-
-        if ($v != "5.1/") {
-            $gn->put("$v/Exceptions/Handler.php", "Exceptions/Handler.php", [
-                'NAMESPACE' => $name
-            ]);
-        }
-
 
         $this->info("\n".$name." generated");
     }
