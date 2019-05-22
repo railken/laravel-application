@@ -43,9 +43,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadPackages();
 
-        $this->app->bind('exceptions_handlers', function () {
-            return $this->exceptions_handlers;
-        });
     }
     
     /**
@@ -101,6 +98,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function loadPackages()
     {
+        // Only commands remain
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
+
         $path = base_path('src');
         
         $packages = collect();
@@ -124,6 +126,7 @@ class AppServiceProvider extends ServiceProvider
         $packages->map(function ($package) {
             $package->register();
         });
+
     }
 
 

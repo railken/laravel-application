@@ -73,7 +73,7 @@ class Package
     public function load()
     {
         $this->loadServices();
-        $this->loadResources();
+        //$this->loadResources();
     }
     
     /**
@@ -83,17 +83,8 @@ class Package
      */
     public function loadServices()
     {
-
-        $this->loadFile('Providers', 'Providers\\', function($class){
-            $this->getServiceProvider()->app->register($class);
-        });
-
         $this->loadFiles('Console/Commands', 'Console\\Commands\\', function($files, $classes) {
             $this->getServiceProvider()->commands($classes);
-        });
-
-        $this->loadFile('Exceptions/Handler.php', 'Exceptions\\', function($class) {
-            $this->getServiceProvider()->addExceptionsHandler($class);
         });
     }
 
@@ -180,8 +171,8 @@ class Package
      */
     public function loadResources()
     {
-        $this->loadViews();
-        $this->loadPublic();
+        // $this->loadViews();
+        // $this->loadPublic();
     }
 
     /**
@@ -192,6 +183,7 @@ class Package
     public function loadViews()
     {
         $package = $this->base_path."/Resources/views";
+
 
         $this->getServiceProvider()->loadViewsFrom($package, $this->name);
     }
@@ -259,7 +251,6 @@ class Package
         $path = $this->base_path."/{$directory}";
 
         if (!is_dir($path)) {
-
             return file_exists($path) ? collect([$path]) : collect();
         }
 
